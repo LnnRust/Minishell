@@ -18,10 +18,14 @@ typedef struct s_token {
 
 //functions
 
-int		is_space(char c);
-int		find_end_of_word(char *word);
+t_token	*tokenizer(char *input);
 t_token	*create_token(char *value, int type);
 void	token_addback(t_token **token, t_token *new_token);
-void tokenizer(char *input);
+void	free_tokens(t_token *head);
+void	print_tokens(t_token *head);
+int		is_space(char c);
+char	*ft_strdup(const char *src);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+size_t	ft_strlen(const char *s);
 
 #endif // TOKENS_H
