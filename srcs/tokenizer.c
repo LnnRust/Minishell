@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aandreo <aandreo@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/26 18:46:01 by aandreo           #+#    #+#             */
-/*   Updated: 2025/12/30 01:08:25 by aandreo          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/Minishell.h"
 
 //	split input into tokens and return linked list of tokens
 //	this function return the token type base on value and length
-static t_token_type get_type(char *value, int has_quotes)
+static t_token_type	get_type(char *value, int has_quotes)
 {
 	if (has_quotes) // -> if quote = always a word
 		return (TOKEN_WORD);
@@ -33,42 +21,41 @@ static t_token_type get_type(char *value, int has_quotes)
 
 //	return index of end of word to tokenize "token per token"
 //	handled quotes with flags -> has_quotes / in_single / in_double
-static int find_end_of_word(char *word, int *has_quotes)
+static int	find_end_of_word(char *word, int *has_quotes)
 {
-	int i;
-	int in_single;
-	int in_double;
+	int	i;
+	int	in_single;
+	int	in_double;
 
 	i = 0;
 	in_single = 0;
 	in_double = 0;
 	*has_quotes = 0;
-	while(word[i])
+	while (word[i])
 	{
-		if(word[i] == '\'' && !in_double)
+		if (word[i] == '\'' && !in_double)
 		{
 			in_single = !in_single;
 			*has_quotes = 1;
 		}
-		else if(word[i] == '\"' && !in_single)
+		else if (word[i] == '\"' && !in_single)
 		{
 			in_double = !in_double;
 			*has_quotes = 1;
 		}
-		else if(!in_single && !in_double
-			&& (is_space(word[i]) || word[i] == '|' || word[i] == '<' || word[i] == '>'))
-			break;
+		else if (!in_single && !in_double && (is_space(word[i])
+				|| word[i] == '|' || word[i] == '<' || word[i] == '>'))
+			break ;
 		i++;
 	}
-	if(in_double || in_single)
+	if (in_double || in_single)
 		return (-1);
 	return (i);
 }
 
-static int get_token_len(char *input, int *has_quotes)
+static int	get_token_len(char *input, int *has_quotes)
 {
 	*has_quotes = 0;
-
 	// check if operator
 	if (input[0] == '|')
 		return (1);
@@ -88,21 +75,23 @@ static int get_token_len(char *input, int *has_quotes)
 	return (find_end_of_word(input, has_quotes));
 }
 
-t_token *tokenizer(char *input)
+t_token	*tokenizer(char *input)
 {
 	int		len;
-	int		i = 0;
+	int		i;
 	int		has_quotes;
 	char	*value;
-	t_token	*tokens = NULL;
+	t_token	*tokens;
 	t_token	*new;
 
-	while(input[i])
+	i = 0;
+	tokens = NULL;
+	while (input[i])
 	{
-		while(is_space(input[i]))
+		while (is_space(input[i]))
 			i++;
-		if(!input[i])
-			break;
+		if (!input[i])
+			break ;
 		len = get_token_len(&input[i], &has_quotes);
 		if (len < 0)
 			return (printf("Unclosed quote\n"), free_tokens(tokens), NULL);
@@ -117,4 +106,3 @@ t_token *tokenizer(char *input)
 	}
 	return (tokens);
 }
-

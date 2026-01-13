@@ -1,50 +1,43 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aandreo <aandreo@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/26 19:57:51 by aandreo           #+#    #+#             */
-/*   Updated: 2025/12/29 22:51:50 by aandreo          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/Minishell.h"
 
 // help to skip spaces
-int is_space(char c)
+int	is_space(char c)
 {
-	if(c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r')
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r')
 		return (1);
 	return (0);
 }
 
 // return index of end of word to tokenize "token per token"
-//handled quotes with flags to
-int find_end_of_word(char *word)
+// handled quotes with flags to
+int	find_end_of_word(char *word)
 {
-	int i = 0;
-	bool in_single_quote = false;
-	bool in_double_quote = false;
+	int		i;
+	bool	in_single_quote;
+	bool	in_double_quote;
 
-	while(word[i])
+	i = 0;
+	in_single_quote = false;
+	in_double_quote = false;
+	while (word[i])
 	{
-		if(word[i] == '\'' && !in_double_quote)
+		if (word[i] == '\'' && !in_double_quote)
 			in_single_quote = !in_single_quote;
-		else if(word[i] == '\"' && !in_single_quote)
+		else if (word[i] == '\"' && !in_single_quote)
 			in_double_quote = !in_double_quote;
-		else if((!in_single_quote && !in_double_quote)
-			&& (is_space(word[i]) || word[i] == '|' || word[i] == '<' || word[i] == '>'))
+		else if ((!in_single_quote && !in_double_quote) && (is_space(word[i])
+				|| word[i] == '|' || word[i] == '<' || word[i] == '>'))
 			break ;
 		i++;
 	}
-	if(in_double_quote || in_single_quote)
-		return (printf("Error: unclosed quote\n"), EXIT_FAILURE); // unclosed quote
+	if (in_double_quote || in_single_quote)
+		return (printf("Error: unclosed quote\n"), EXIT_FAILURE);
+			// unclosed quote
 	return (i);
 }
 
-char *ft_strdup(const char *src)
+char	*ft_strdup(const char *src)
 {
 	size_t	len;
 	char	*dest;
@@ -95,11 +88,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	len = 0;
+	size_t	len;
+
+	len = 0;
 	while (s[len])
 		len++;
 	return (len);
 }
-
-
-

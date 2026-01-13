@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer_lsts.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aandreo <aandreo@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/27 20:15:47 by aandreo           #+#    #+#             */
-/*   Updated: 2025/12/27 22:16:15 by aandreo          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/Minishell.h"
 
 // Implementation of tokenizer linked lists would go here
@@ -29,20 +17,18 @@ t_token	*create_token(char *value, int type)
 
 void	token_addback(t_token **token, t_token *new_token)
 {
-	t_token *tmp;
+	t_token	*tmp;
+
 	if (!token || !new_token)
 		return ;
-	if(!*token)
+	if (!*token)
 	{
 		*token = new_token;
 		return ;
 	}
 	tmp = *token;
-	while(tmp->next)
+	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_token;
 	return ;
 }
-
-
-

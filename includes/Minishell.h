@@ -1,13 +1,19 @@
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdbool.h>
-#include "tokens.h"
-#include "parsing.h"
+//# include "parsing.h"
+
+// --- WARNING ---
+
+// 42 C-Format extension orders the includes in alphabetical order.
+// This WILL BREAK code.
+
+# include <stdbool.h>
+# include <stddef.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include "tokens.h"
+# include <readline/history.h>
+# include <readline/readline.h>
 
 #endif
-

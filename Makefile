@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: aandreo <aandreo@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/12/27 22:28:36 by aandreo           #+#    #+#              #
-#    Updated: 2025/12/27 22:30:36 by aandreo          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -24,7 +12,7 @@ SRCS = \
 	srcs/tokenizer_utils.c
 OBJS = $(SRCS:.c=.o)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean remakefile format
 
 all: $(NAME)
 
