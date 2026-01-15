@@ -13,6 +13,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "tokens.h"
+# include "signal_handler.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 

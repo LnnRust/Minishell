@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror -g3 -O0
 LDFLAGS = -lreadline
 CPPFLAGS = -Iincludes
@@ -19,9 +19,10 @@ SANITIZE		= $(ASan) $(UBSan)
 
 SRCS = \
 	srcs/minishell.c \
-	srcs/tokenizer.c \
-	srcs/tokenizer_lsts.c \
-	srcs/tokenizer_utils.c
+	srcs/signal_handler.c \
+	#srcs/tokenizer.c \
+	#srcs/tokenizer_lsts.c \
+	#srcs/tokenizer_utils.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean fclean remakefile format
