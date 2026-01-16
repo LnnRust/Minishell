@@ -12,6 +12,8 @@
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include "ft_printf/ft_printf.h"
+# include "libft/libft.h"
 # include "tokens.h"
 # include "signal_handler.h"
 # include <readline/history.h>

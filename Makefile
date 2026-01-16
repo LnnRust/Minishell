@@ -30,13 +30,17 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(SANITIZE) -o $@ $^ $(LDFLAGS)
+	-norminette
+	make -C includes/ft_printf
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(SANITIZE) -o $@ $^ includes/ft_printf/libftprintf.a $(LDFLAGS)
 
 %.o: %.c
+	-norminette
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(SANITIZE) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	make clean -C includes/ft_printf
+	$(RM) $(OBJS) $(NAME)
 
 fclean: clean
 	$(RM) $(NAME)

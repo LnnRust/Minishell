@@ -20,7 +20,7 @@ int	main(void)
 		input = readline("minishell> ");
 		if (input == NULL) // if user -> Ctrl+D ( = signal eof -> need to exit)
 		{
-			printf("Got EOF. Exiting Minishell...\n");
+			ft_printf("Got EOF. Exiting Minishell...\n");
 			// We should execute the built-in exit() command here.
 			exit(EXIT_SUCCESS);
 		}

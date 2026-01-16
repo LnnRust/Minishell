@@ -27,9 +27,9 @@ t_token				*create_token(char *value, int type);
 void				token_addback(t_token **token, t_token *new_token);
 void				free_tokens(t_token *head);
 void				print_tokens(t_token *head);
-int					is_space(char c);
-char				*ft_strdup(const char *src);
-char				*ft_substr(char const *s, unsigned int start, size_t len);
-size_t				ft_strlen(const char *s);
+int					ft_is_space(char c);
+// char				*ft_strdup(const char *src);
+// char				*ft_substr(char const *s, unsigned int start, size_t len);
+// size_t				ft_strlen(const char *s);
 
 #endif // TOKENS_H

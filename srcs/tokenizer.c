@@ -43,7 +43,7 @@ static int	find_end_of_word(char *word, int *has_quotes)
 			in_double = !in_double;
 			*has_quotes = 1;
 		}
-		else if (!in_single && !in_double && (is_space(word[i])
+		else if (!in_single && !in_double && (ft_is_space(word[i])
 				|| word[i] == '|' || word[i] == '<' || word[i] == '>'))
 			break ;
 		i++;
@@ -88,7 +88,7 @@ t_token	*tokenizer(char *input)
 	tokens = NULL;
 	while (input[i])
 	{
-		while (is_space(input[i]))
+		while (ft_is_space(input[i]))
 			i++;
 		if (!input[i])
 			break ;

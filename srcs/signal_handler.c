@@ -9,9 +9,9 @@ void	signal_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
-		printf("\nReceived SIGINT, TERMINATING.\n");
-		printf("Next version will not terminate, and will prompt back.\n");
-		//printf("minishell>");
+		ft_printf("\nReceived SIGINT, TERMINATING.\n");
+		ft_printf("Next version will not terminate, and will prompt back.\n");
+		//ft_printf("minishell>");
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -29,20 +29,20 @@ void	signal_handler(int signo)
 /// SIGINT, SIGUSR1 and SIGUSR2 signals.
 void	init_signal_handling(struct sigaction *sa)
 {
-	bzero(sa, sizeof(*sa));
+	ft_bzero(sa, sizeof(*sa));
 	sa->sa_handler = &signal_handler;
 	sigemptyset(&sa->sa_mask);
 	sa->sa_flags = SA_SIGINFO;
 	sigaction(SIGINT, sa, NULL);
 	if (sigaction(SIGINT, sa, NULL) == -1)
 	{
-		printf("\nError : Can't catch SIGINT. TERMINATING\n");
+		ft_printf("\nError : Can't catch SIGINT. TERMINATING\n");
 		exit(EXIT_FAILURE);
 	}
 	sigaction(SIGUSR1, sa, NULL);
 	if (sigaction(SIGUSR1, sa, NULL) == -1)
 	{
-		printf("\nError : Can't catch SIGUR1. TERMINATING\n");
+		ft_printf("\nError : Can't catch SIGUR1. TERMINATING\n");
 		exit(EXIT_FAILURE);
 	}
 }
