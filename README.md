@@ -1,3 +1,11 @@
+# AI Notes
+
+FUCK NVIDIA.
+
+Ancourti hates AI. No AI was used because fuck that shit.
+
+You want to learn ? Confront the hard stuff, this is the only way to progress.
+
 # Quick reference - allowed functions
 
 ## Why ?

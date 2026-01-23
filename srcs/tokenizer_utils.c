@@ -1,18 +1,5 @@
 #include "../includes/Minishell.h"
 
-/// @brief Detect if a character is a "space", according to the ISO C standard.
-/// The characters considered as "space" are  the following :
-/// `' '`, `\t`, `\n` , `\v`, `\f` and `\r`.
-/// @param c character to check.
-/// @return 1 if the character is a space, 0 if it is not.
-int	ft_is_space(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r')
-		return (1);
-	return (0);
-}
-
 // return index of end of word to tokenize "token per token"
 // handled quotes with flags to
 int	find_end_of_word(char *word)

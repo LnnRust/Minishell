@@ -1,32 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 10:34:27 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/21 20:52:50 by ancourti         ###   ########.fr       */
+/*   Created: 2026/01/19 12:03:25 by ancourti          #+#    #+#             */
+/*   Updated: 2026/01/20 15:40:29 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-/// @brief Returns the last node of the list.
-/// @param lst The beginning of the list.
-/// @return Last node of the list.
-t_list	*ft_lstlast(t_list *lst)
-{
-	t_list	*ptr_lst;
-
-	if (lst == NULL)
-	{
-		return (NULL);
-	}
-	ptr_lst = lst;
-	while (ptr_lst->next != NULL)
-	{
-		ptr_lst = ptr_lst->next;
-	}
-	return (ptr_lst);
-}

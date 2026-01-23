@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 02:00:55 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/16 03:51:15 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/16 05:28:25 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	ft_putnbr_u_fd(unsigned int n, int fd)
 		return (ft_count_digits(n, 10));
 	}
 }
+
 // @brief Counts the number of digits in a number, given its base.
 // Examples :
 //

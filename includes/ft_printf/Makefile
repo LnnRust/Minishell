@@ -6,7 +6,7 @@
 #    By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 05:43:30 by ancourti          #+#    #+#              #
-#    Updated: 2026/01/16 05:04:20 by ancourti         ###   ########.fr        #
+#    Updated: 2026/01/23 11:51:59 by ancourti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ NAME			= libftprintf.a
 all:		$(NAME)
 
 libft.a:
-		make -C ../libft/
+		make -j$(nproc) -C ../libft/
 		cp ../libft/libft.a libftprintf.a
 
 $(NAME):	libft.a $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 19:50:54 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/16 03:51:46 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/21 21:00:31 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,122 +56,25 @@ int					ft_putnbr_u_fd(unsigned int n, int fd);
 int					ft_putpointer(void *pointer, int fd);
 int					ft_count_digits(unsigned long n, int base);
 
-// @brief Bonus structure - Simple chained list.
-// @param content The data contained in the node. `void *` allows you to
-// store any type of data.
-// @param next The address of the next node,
-// or `NULL` if the current node is the last one.
+/// @brief Bonus structure - Simple chained list.
+/// @param content The data contained in the node. `void *` allows you to
+/// store any type of data.
+/// @param next The address of the next node,
+/// or `NULL` if the current node is the last one.
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
 
-// @brief Allocates memory (using `malloc()`) and returns
-// a new node.
-//
-// - The `content` member variable is
-// initialized with the given parameter `content`.
-//
-// - The variable `next` is initialized to `NULL`.
-// @param content The content to store in the new node.
-// @return A pointer to the new node.
-// @warning Subject does not specify the need to protect
-// if `malloc()` fails !
 t_list				*ft_lstnew(void *content);
-
-// @brief Adds the node `new` at the beginning of the list.
-// @param lst The address of a pointer to the first node of a list.
-// @param new The address of a pointer to the node to be added.
-// @return None.
 void				ft_lstadd_front(t_list **lst, t_list *new);
-
-// @brief Counts the number of nodes in the list.
-// @param lst The beginning of the list.
-// @return The length of the list.
 int					ft_lstsize(t_list *lst);
-
-// @brief Returns the last node of the list.
-// @param lst The beginning of the list.
-// @return Last node of the list.
 t_list				*ft_lstlast(t_list *lst);
-
-// @brief Adds the node `new` at the end of the list.
-// @param lst The address of a pointer to the first node of a list.
-// @param new The address of a pointer to the node to be added.
 void				ft_lstadd_back(t_list **lst, t_list *new);
-
-// @brief Takes a node as parameter and frees its content
-// using the function `del`. Free the node itself but
-// does NOT free the next node.
-// @param lst The node to free.
-// @param del The address of the function used to delete the content.
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
-
-// @brief Deletes and frees the given node and all its successors,
-// using the function `del` and `free()`.
-// Finally, set the pointer to the list to `NULL`.
-//
-// Source code explaination :
-//
-// 1. Loop over the list.
-//
-// 2. Set `temp` to point to the next element of the list.
-//
-// 3. Use `ft_lstdelone()` on the current element.
-//
-// 4. Set the list pointer equal to `temp`, so that we have a
-// pointer to the next element.
-//
-// 5. Finally, `free()` the list pointer and set it to `NULL`.
-// @param lst The address of a pointer to a node.
-// @param del The address of the function used to
-// delete the content of the node.
 void				ft_lstclear(t_list **lst, void (*del)(void *));
-
-// @brief Iterates through the list `lst` and applies the
-// function `f` to the content of each node.
-// @param lst The address of a pointer to a node.
-// @param f The address of the function to apply to each
-// node’s content.
 void				ft_lstiter(t_list *lst, void (*f)(void *));
-
-// @brief This function works similarly as the `ft_lstiter()` function,
-// but it creates a completely new list.
-//
-// `ft_lstmap()` iterates through the list `lst`, applies the
-// function `f()` to each node’s content, and creates
-// a new list resulting of the successive applications
-// of the function `f()`.
-//
-// External functions : `malloc()`, `free()`.
-//
-// Principle :
-//
-// 1. Create a new list and initialize its content as `f()`
-// of source's list content.
-//
-// 2. Go one element deeper in the source list.
-//
-// 3. Repeat until the end, add each new element to the back of the
-// new list.
-//
-// 4. Check that the new list has the same number of elements
-// as the source list :
-//
-// 5. If something is missing, a `malloc()` must have failed.
-// In that case, `ft_lstclear()` function will be used with the
-// `del()` function as parameter to clear everything from the first element.
-// The new list will also be freed with `free()`,
-// and its pointer set to `NULL`.
-//
-// 6. Else, return the new list's pointer.
-//
-// @param lst The address of a pointer to a node.
-// @param f The address of the function applied to each node’s content.
-// @param del The address of the function used to delete a
-// node’s content if needed.
-// @return (Pointer to the new list); or `NULL` if any allocation fails.
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 

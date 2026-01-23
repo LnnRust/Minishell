@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 22:55:03 by ancourti          #+#    #+#             */
-/*   Updated: 2025/11/28 04:31:06 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:31:06 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,40 +55,43 @@ int	ft_printf_cases(int *chars_printed, const char fixed_flags, va_list args)
 	return (2);
 }
 
-// @brief A reproduction of the original `printf()` with no `malloc()`.
-//
-// Supported conversions :
-//
-// - `%c` Prints a single character.
-//
-// - `%s` Prints a string (as defined by the common C convention).
-//
-// - `%p` The void * pointer argument has to be printed in hexadecimal format.
-//
-// - `%d` Prints a decimal (base 10) number.
-//
-// - `%i` Prints an integer in base 10.
-//
-// - `%u` Prints an unsigned decimal (base 10) number.
-//
-// - `%x` Prints a number in hexadecimal (base 16) lowercase format.
-//
-// - `%X` Prints a number in hexadecimal (base 16) uppercase format.
-//
-// - `%%` Prints a percent sign.
-//
-// External functions : `malloc()`, `free()`, `write()`,
-// `va_start()`, `va_arg()`, `va_copy()`, `va_end()`.
-//
-// Mandatory includes : `<stdarg.h>`, `libft.h`.
-//
-// @warning - No buffer management. Cannot check the number of `va_args`.
-//
-// - If `fixed_flags`
-// contains too much data, behavior is undefined.
-// @param fixed_flags Where you can put
-// @param (...) Any int, char, char* or void* that you want to write.
-// @return Number of bytes printed, no matter what happens.
+/// @brief A reproduction of the original `printf()` with no `malloc()`.
+///
+/// Supported conversions :
+///
+/// - `%c` Prints a single character.
+///
+/// - `%s` Prints a string (as defined by the common C convention).
+///
+/// - `%p` The void * pointer argument has to be printed in hexadecimal format.
+///
+/// - `%d` Prints a decimal (base 10) number.
+///
+/// - `%i` Prints an integer in base 10.
+///
+/// - `%u` Prints an unsigned decimal (base 10) number.
+///
+/// - `%x` Prints a number in hexadecimal (base 16) lowercase format.
+///
+/// - `%X` Prints a number in hexadecimal (base 16) uppercase format.
+///
+/// - `%%` Prints a percent sign.
+///
+/// External functions : `malloc()`, `free()`, `write()`,
+/// `va_start()`, `va_arg()`, `va_copy()`, `va_end()`.
+///
+/// Mandatory includes : `<stdarg.h>`, `libft.h`.
+///
+/// @warning - No buffer management. Cannot check the number of `va_args`.
+/// @warning - If `fixed_flags` contains too much data, behavior is undefined.
+/// @warning - If `fixed_flags` conflicts with the data types in the next
+/// arguments, behavior is undefined.
+/// @attention You are reponsible for choosing the right conversion flags.
+/// Unlike the original `printf()`, there are no checks at compile time.
+/// @param fixed_flags A string composed of one or several flags
+/// (see supported conversions) and/or printable characters.
+/// @param (...) Any int, char, char* or void* that you want to write.
+/// @return Number of bytes printed, no matter what happens.
 int	ft_printf(const char *fixed_flags, ...)
 {
 	int		i;

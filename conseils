@@ -1,0 +1,20 @@
+relink pipe
+en gardant le bout de la commande
+
+OU
+
+Tableau ou liste chaînée de fd
+
+execve() peut te renvoer des messages d'erreur foireux et écraser le errno avec de la merde.
+Pour certains cas il faut print ton erreur sans lancer execve, sinon le errno sera faux.
+
+Penser à fermer les fd
+
+
+Parsing
+
+Il faut pouvoir lancer les commandes avec env -i.
+
+
+# Le cleanup
+

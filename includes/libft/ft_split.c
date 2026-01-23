@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 23:45:14 by ancourti          #+#    #+#             */
-/*   Updated: 2025/11/10 20:19:58 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/19 07:16:07 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ static void	free_all(char **array_of_ptr)
 	free(array_of_ptr);
 }
 
-// @brief Allocates memory using `malloc()` and returns an
-// array of strings obtained by splitting ’s’ using
-// the character ’c’ as a delimiter. The array must
-// end with a NULL pointer.
-// @param s The string to be split.
-// @param separator The delimiter character.
-// @return - The array of new strings resulting from the split.
-// @return - NULL if the allocation fails.
+/// @brief Allocates memory using `malloc()` and returns an
+/// array of strings obtained by splitting `s` using
+/// the character `c` as a delimiter. The array must
+/// end with a NULL pointer.
+/// @param s The string to be split.
+/// @param separator The delimiter character.
+/// @return - The array of new strings resulting from the split.
+/// @return - NULL if the allocation fails.
 char	**ft_split(char const *s, char sep)
 {
 	char	**array_of_ptr;
