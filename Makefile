@@ -15,7 +15,7 @@ UBSan			=	-fsanitize=undefined -fsanitize=float-divide-by-zero -fsanitize=intege
 					-fsanitize=implicit-conversion -fsanitize=integer -fsanitize=nullability -fsanitize=vptr \
 					-fno-sanitize-merge -fno-omit-frame-pointer
 
-SANITIZE		= #$(ASan) $(UBSan)
+# SANITIZE		= $(ASan) $(UBSan)
 
 SRCS = \
 	srcs/minishell.c \

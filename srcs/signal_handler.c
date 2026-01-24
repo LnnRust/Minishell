@@ -11,7 +11,6 @@ void	signal_handler(int signo)
 	{
 		ft_printf("\nReceived SIGINT, TERMINATING.\n");
 		ft_printf("Next version will not terminate, and will prompt back.\n");
-		//ft_printf("minishell>");
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -37,12 +36,6 @@ void	init_signal_handling(struct sigaction *sa)
 	if (sigaction(SIGINT, sa, NULL) == -1)
 	{
 		ft_printf("\nError : Can't catch SIGINT. TERMINATING\n");
-		exit(EXIT_FAILURE);
-	}
-	sigaction(SIGUSR1, sa, NULL);
-	if (sigaction(SIGUSR1, sa, NULL) == -1)
-	{
-		ft_printf("\nError : Can't catch SIGUR1. TERMINATING\n");
 		exit(EXIT_FAILURE);
 	}
 }

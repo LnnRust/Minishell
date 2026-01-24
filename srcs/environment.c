@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 20:48:36 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/23 14:36:54 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/24 19:45:09 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,52 @@ t_env_lst	*init_env_lst()
 	return (env_lst_first);
 }
 
-// /// @brief
-// /// @param lst
-// /// @return
-// void	**env_lst_to_str_array(t_env_lst *lst)
-// {
-// }
+/// @brief Convert the environment variables chained list
+/// into a NULL terminated array of strings.
+/// The array has the same format as the global variable `__environ`.
+/// @param lst Chained list of environment variables.
+/// @return - Pointer to an array. Don't forget to `free()` it !
+/// @return - `NULL` if `malloc()` fails.
+char	**env_lst_to_str_array(t_env_lst *lst)
+{
+	char	**env_array;
+	int		len;
+	int		i;
+
+	len = env_lstsize(lst);
+	env_array = malloc(sizeof(char*) * (len + 1));
+	if (env_array == NULL)
+	{
+		return (NULL);
+	}
+
+	// Run through the list
+	i = 0;
+	while (lst->next_env != NULL)
+	{
+		// Maybe doing an strdup is not necessary here :
+		env_array[i] = ft_strdup(lst->env_value);
+		lst = lst->next_env;
+		i++;
+	}
+	env_array[i] = ft_strdup(lst->env_value);
+	return (env_array);
+}
+
+/// @brief Free() all the strings allocated in a NULL terminated string array.
+/// @param str_arr
+void	ft_free_str_array(char **str_arr)
+{
+	int	i;
+
+	i = 0;
+	while (str_arr[i] != NULL)
+	{
+		free(str_arr[i]);
+		i++;
+	}
+	free(str_arr);
+}
 
 /// @brief Adds the node `new` at the end of the list.
 /// @param lst The address of a pointer to the first node of a list.
@@ -100,6 +140,10 @@ void	envlst_clear(t_env_lst **stack)
 {
 	t_env_lst	*temp;
 
+	// if (stack == NULL)
+	// {
+	// 	return ;
+	// }
 	while ((*stack) != NULL)
 	{
 		temp = (*stack)->next_env;

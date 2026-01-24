@@ -23,6 +23,12 @@ int	ft_is_whitespace(int c)
 	return (0);
 }
 
+void	clean_exit(t_minishell_data *data)
+{
+	envlst_clear(&data->env_list);
+	exit(EXIT_SUCCESS);
+}
+
 /// @brief Some useful stuff to know.
 ///
 /// - `CTRL+D` sends an EOF.
@@ -35,53 +41,37 @@ int	ft_is_whitespace(int c)
 
 int	main(void)
 {
-	char				*input;
 	struct sigaction	sa;
-	char				**command;
-	t_env_lst			*env_vars;
-	int i;
+	t_minishell_data	data;
 
-	//command = NULL;
-	env_vars = init_env_lst();
-
-	//free(env_vars);
-
-	//ft_printf("%p\n", env_vars);
-
-	envlst_print(&env_vars);
-	envlst_clear(&env_vars);
+	data.env_list = init_env_lst();
+	// free(env_vars);
+	// ft_printf("%p\n", env_vars);
+	envlst_print(&data.env_list);
 	init_signal_handling(&sa);
 	ft_printf("=== Minishell ===\n");
 	while (1)
 	{
-		input = readline("minishell> ");
-		if (input == NULL)
+		data.input = readline("minishell> ");
+		if (data.input == NULL)
 		{
 			ft_printf("Got EOF. Exiting Minishell...\n");
 			// We should execute the built-in exit() command here.
-			exit(EXIT_SUCCESS);
+			// clean_exit();
+			clean_exit(&data);
 		}
 		else
 		{
-			add_history(input);
-			command = ft_split(input, ' ');
-			if (command[0] != NULL)
+			add_history(data.input);
+			data.command = ft_split(data.input, ' ');
+			if (data.command[0] != NULL)
 			{
-				execve(command[0], command, NULL);
+				data.env_array = env_lst_to_str_array(data.env_list);
+				execve(data.command[0], data.command, data.env_array);
+				ft_free_str_array(data.env_array);
 			}
-			// This is used to free the array of strings each time.
-			i = 0;
-			while (command[i] != NULL)
-			{
-				i++;
-			}
-			while (i >= 0)
-			{
-				free(command[i]);
-				i--;
-			}
-			free(command);
-			free(input);
+			ft_free_str_array(data.command);
+			free(data.input);
 		}
 	}
 	return (0);
