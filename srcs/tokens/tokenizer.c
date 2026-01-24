@@ -1,33 +1,20 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aandreo <aandreo@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/26 18:46:01 by aandreo           #+#    #+#             */
-/*   Updated: 2025/12/30 01:08:25 by aandreo          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/Minishell.h"
 
-//	split input into tokens and return linked list of tokens
 //	this function return the token type base on value and length
 static t_token_type get_type(char *value, int has_quotes)
 {
 	if (has_quotes) // -> if quote = always a word
-		return (TOKEN_WORD);
+	return (TOKEN_WORD);
 	if (ft_strlen(value) == 1 && value[0] == '|')
-		return (TOKEN_PIPE);
+	return (TOKEN_PIPE);
 	if (ft_strlen(value) == 1 && value[0] == '<')
-		return (TOKEN_REDIRECT_IN);
+	return (TOKEN_REDIRECT_IN);
 	if (ft_strlen(value) == 2 && value[0] == '<' && value[1] == '<')
-		return (TOKEN_HEREDOC);
+	return (TOKEN_HEREDOC);
 	if (ft_strlen(value) == 1 && value[0] == '>')
-		return (TOKEN_REDIRECT_OUT);
+	return (TOKEN_REDIRECT_OUT);
 	if (ft_strlen(value) == 2 && value[0] == '>' && value[1] == '>')
-		return (TOKEN_APPEND);
+	return (TOKEN_APPEND);
 	return (TOKEN_WORD);
 }
 
@@ -58,36 +45,37 @@ static int find_end_of_word(char *word, int *has_quotes)
 		else if(!in_single && !in_double
 			&& (is_space(word[i]) || word[i] == '|' || word[i] == '<' || word[i] == '>'))
 			break;
-		i++;
-	}
-	if(in_double || in_single)
+			i++;
+		}
+		if(in_double || in_single)
 		return (-1);
-	return (i);
-}
+		return (i);
+	}
 
-static int get_token_len(char *input, int *has_quotes)
-{
-	*has_quotes = 0;
+	static int get_token_len(char *input, int *has_quotes)
+	{
+		*has_quotes = 0;
 
 	// check if operator
 	if (input[0] == '|')
-		return (1);
+	return (1);
 	if (input[0] == '<')
 	{
 		if (input[1] == '<')
-			return (2);
+		return (2);
 		return (1);
 	}
 	if (input[0] == '>')
 	{
 		if (input[1] == '>')
 			return (2);
-		return (1);
-	}
-	// if not == word -> need to find end of word
+			return (1);
+		}
+		// if not == word -> need to find end of word
 	return (find_end_of_word(input, has_quotes));
 }
 
+//	split input into tokens and return linked list of tokens
 t_token *tokenizer(char *input)
 {
 	int		len;

@@ -1,31 +1,22 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aandreo <aandreo@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/27 19:29:23 by aandreo           #+#    #+#             */
-/*   Updated: 2025/12/28 00:29:47 by aandreo          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/Minishell.h"
 
-int main(void)
+int main(int ac, char **av, char **envp)
 {
-	char *input;
+	char	*input;
+	t_token	*tokens;
 	while (1)
 	{
 		input = readline("minishell> ");
-		if (!input)  // if user -> Ctrl+D ( = signal eof -> need to exit)
+		if (!input || input[0] == '\0')  // if user -> Ctrl+D ( = signal eof -> need to exit)
 		{
 			printf("successfully exited minishell\n");
 			break;
 		}
 		if (*input)
 			add_history(input);  // add_history allows to keep commands and navigate with up/down
-		tokenizer(input);
+		tokens = tokenizer(input);
+		if(!tokens)
+			return (free(input), free_tokens(tokens), EXIT_FAILURE);
 		free(input);  // Readline allocates memory but doesnt free
 	}
 	return (0);

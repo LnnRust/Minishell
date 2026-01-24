@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include "tokens.h"
 #include "parsing.h"
+#include "builtins.h"
 
 #endif
 
