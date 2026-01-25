@@ -7,7 +7,7 @@ RM = rm -f
 
 # Sanitizers should ONLY be used with clang. Some flags will NOT compile with gcc.
 # Some flags are probably useless or redundant.
-ASan			= 	-fsanitize-recover=address -fsanitize=address -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope -fno-optimize-sibling-calls -fno-omit-frame-pointer -fno-common
+ASan			= 	-fsanitize-recover=address -fsanitize=address -fsanitize=leak -fsanitize-address-use-after-return=always -fsanitize-address-use-after-scope -fno-optimize-sibling-calls -fno-omit-frame-pointer -fno-common
 MSan			=	-fsanitize=memory -fsanitize-memory-track-origins -fno-omit-frame-pointer
 TSan			=	-fsanitize=thread
 UBSan			=	-fsanitize=undefined -fsanitize=float-divide-by-zero -fsanitize=integer -fsanitize=bounds \
@@ -15,7 +15,7 @@ UBSan			=	-fsanitize=undefined -fsanitize=float-divide-by-zero -fsanitize=intege
 					-fsanitize=implicit-conversion -fsanitize=integer -fsanitize=nullability -fsanitize=vptr \
 					-fno-sanitize-merge -fno-omit-frame-pointer
 
-# SANITIZE		= $(ASan) $(UBSan)
+SANITIZE		= $(ASan) $(UBSan)
 
 SRCS = \
 	srcs/minishell.c \

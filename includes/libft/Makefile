@@ -6,7 +6,7 @@
 #    By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 05:43:30 by ancourti          #+#    #+#              #
-#    Updated: 2026/01/23 11:52:05 by ancourti         ###   ########.fr        #
+#    Updated: 2026/01/25 10:43:31 by ancourti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ BONUS_OBJS		= $(BONUS:.c=.o)
 
 CC				= cc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -g3
+CFLAGS			= -Wall -Wextra -Werror -g3 -O0
 
 NAME			= libft.a
 

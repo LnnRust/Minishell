@@ -1,19 +1,6 @@
 #include "../includes/Minishell.h"
 
-/// @brief Signal Handler. Describes what actions to do depending on the
-/// signal received. (ex: SIGINT exits the program).
-/// @param signo Signal Number. You may also enter the signal's short name,
-/// `SIGINT` for example. Check this page for some more info :
-/// https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm
-void	signal_handler(int signo)
-{
-	if (signo == SIGINT)
-	{
-		ft_printf("\nReceived SIGINT, TERMINATING.\n");
-		ft_printf("Next version will not terminate, and will prompt back.\n");
-		exit(EXIT_SUCCESS);
-	}
-}
+
 
 /// @brief Initialize the signal handling structure.
 /// Exits the program if something fails.
@@ -36,6 +23,6 @@ void	init_signal_handling(struct sigaction *sa)
 	if (sigaction(SIGINT, sa, NULL) == -1)
 	{
 		ft_printf("\nError : Can't catch SIGINT. TERMINATING\n");
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
 }

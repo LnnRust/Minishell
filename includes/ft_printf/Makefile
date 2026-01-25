@@ -6,7 +6,7 @@
 #    By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 05:43:30 by ancourti          #+#    #+#              #
-#    Updated: 2026/01/23 11:51:59 by ancourti         ###   ########.fr        #
+#    Updated: 2026/01/25 10:43:45 by ancourti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= cc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -g3
+CFLAGS			= -Wall -Wextra -Werror -g3 -O0
 
 NAME			= libftprintf.a
 

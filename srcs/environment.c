@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 20:48:36 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/24 19:45:09 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/25 17:37:27 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	envlst_clear(t_env_lst **stack)
 }
 
 /// @brief Takes a node as parameter and frees its content
-/// using the function `del`. Free the node itself but
+/// using the function `del`. Frees the node itself but
 /// does NOT free the next node.
 /// @param lst The node to free.
 /// @param del The address of the function used to delete the content.
@@ -166,6 +166,7 @@ void	envlst_del_one(t_env_lst *lst)
 }
 
 /// @brief Print the contents of the stack using `ft_printf()`.
+/// @note Originally used in "Push Swap" to print the content and addresses of each node.
 /// @param stack
 void	envlst_print(t_env_lst **stack)
 {
@@ -174,7 +175,7 @@ void	envlst_print(t_env_lst **stack)
 
 	if (*stack == NULL)
 	{
-		ft_printf("Empty stack");
+		ft_printf("Empty stack\n");
 		return ;
 	}
 	// ft_printf("\n----- STACK CONTENTS -----\n");
@@ -327,6 +328,7 @@ t_env_lst	*env_lstnew(char *value)
 	{
 		return (NULL);
 	}
+	// Warning : a NULL value is passed here and triggers UBSan.
 	new_node->env_value = ft_strdup(value);
 	new_node->next_env = NULL;
 	return (new_node);

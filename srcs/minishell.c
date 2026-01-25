@@ -23,42 +23,85 @@ int	ft_is_whitespace(int c)
 	return (0);
 }
 
+/// @brief Exit Minishell cleanly, freeing the structure `data` and all
+/// of its members.
+/// @brief - Can, in principle, be used at any stage of the program.
+/// @brief - Checks if each member of the structure is already `NULL`
+/// to avoid any double `free()`.
+/// @param data Structure containing all the data dynamically allocated.
 void	clean_exit(t_minishell_data *data)
 {
+	ft_printf("clean_exit()\n");
 	envlst_clear(&data->env_list);
-	exit(EXIT_SUCCESS);
+	// envlst_print(&data->env_list);
+	clear_history();
+	rl_clear_history();
+	// exit(EXIT_SUCCESS);
 }
 
-/// @brief Some useful stuff to know.
-///
-/// - `CTRL+D` sends an EOF.
-///
-/// - If `readline()` sees an EOF, it returns NULL.
-///
-/// The readline function is great. It manages for us the history using
-/// @param
-/// @return
+
+volatile sig_atomic_t g_signal;
+
+/// signal received. (ex: SIGINT exits the program).
+/// @param signo Signal Number. You may also enter the signal's short name,
+/// `SIGINT` for example. Check this page for some more info :
+/// https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm
+/// @warning Address Sanitizer (memory leak check) WILL FAIL due to how the
+/// signal handler is implemented. The `exit()` functions skips ASan entirely.
+/// Only Valgrind can detect memory leaks if using `exit()`.
+/// @note - The future implementation should not use the `exit()` function.
+/// @note - It may rely on `signal()` instead of `sigaction()`.
+void	signal_handler(volatile sig_atomic_t signo)
+{
+	g_signal = signo;
+	ft_printf("\n");
+	rl_on_new_line(); // Regenerate the prompt on a newline
+    rl_replace_line("", 0); // Clear the previous text
+	rl_redisplay();
+
+	// if (signo == SIGINT)
+	// {
+	// 	ft_printf("\nReceived SIGINT, TERMINATING.\n");
+	// 	ft_printf("Next version will not terminate, and will prompt back.\n");
+	// 	ft_printf("\033[0;31m=== WARNING: calling exit() ===\033[0m\n");
+	// 	ft_printf("\033[0;31mAddress Sanitizer will be skipped. NO LEAKS WILL BE REPORTED !\033[0m\n");
+	// 	ft_printf("\033[0;31m\nOnly Valgrind can report leaks in this scenario.\033[0m\n");
+	// 	exit(EXIT_SUCCESS);
+	// }
+}
 
 int	main(void)
 {
-	struct sigaction	sa;
 	t_minishell_data	data;
 
+	// struct sigaction	sa;
+	// Set above function as signal handler for the SIGINT signal:
+	// Warning : SIGINT leaks the whole data structure,
+	//	because it is not freed at all.
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+	{
+		ft_printf("An error occurred while setting a signal handler.\n");
+		return (EXIT_FAILURE);
+	}
 	data.env_list = init_env_lst();
-	// free(env_vars);
-	// ft_printf("%p\n", env_vars);
 	envlst_print(&data.env_list);
-	init_signal_handling(&sa);
+	// init_signal_handling(&sa);
 	ft_printf("=== Minishell ===\n");
 	while (1)
 	{
+		//rl_catch_signals = 0;
+		rl_persistent_signal_handlers = 0;
 		data.input = readline("minishell> ");
+		if (g_signal == SIGINT)
+		{
+			ft_printf("GOTCHA !\n");
+		}
+		g_signal = 0;
 		if (data.input == NULL)
 		{
 			ft_printf("Got EOF. Exiting Minishell...\n");
-			// We should execute the built-in exit() command here.
-			// clean_exit();
 			clean_exit(&data);
+			return (0);
 		}
 		else
 		{
