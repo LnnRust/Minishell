@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:03:19 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/26 00:25:29 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/26 12:33:27 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_token_lst
 typedef struct s_minishell_data
 {
 	char					*input;
+	char					*prompt;
 	char					**command_array;
 	struct s_env_lst		*env_list;
 	char					**env_array;
