@@ -34,30 +34,43 @@ void	clean_exit(t_minishell_data *data)
 	ft_printf("clean_exit()\n");
 	envlst_clear(&data->env_list);
 	// envlst_print(&data->env_list);
-	clear_history();
 	rl_clear_history();
 	// exit(EXIT_SUCCESS);
 }
 
-
 volatile sig_atomic_t g_signal;
 
-/// signal received. (ex: SIGINT exits the program).
+/// Handle the signal received. (ex: SIGINT exits the program).
 /// @param signo Signal Number. You may also enter the signal's short name,
 /// `SIGINT` for example. Check this page for some more info :
 /// https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm
-/// @warning Address Sanitizer (memory leak check) WILL FAIL due to how the
-/// signal handler is implemented. The `exit()` functions skips ASan entirely.
-/// Only Valgrind can detect memory leaks if using `exit()`.
+/// @warning Address Sanitizer (memory leak check) MAY FAIL to report leaks,
+/// depending on how the signal handler is implemented.
+/// @warning - The `exit()` function, including `atexit()`, `quick_exit()`,
+/// etc... can skip ASan entirely. In this scenario, only Valgrind can detect
+/// memory leaks on `exit()`.
 /// @note - The future implementation should not use the `exit()` function.
-/// @note - It may rely on `signal()` instead of `sigaction()`.
+/// @note - It may in the future use either `signal()` or `sigaction()`.
 void	signal_handler(volatile sig_atomic_t signo)
 {
 	g_signal = signo;
-	ft_printf("\n");
-	rl_on_new_line(); // Regenerate the prompt on a newline
-    rl_replace_line("", 0); // Clear the previous text
-	rl_redisplay();
+
+	if (signo == SIGINT)
+	{
+		// https://stackoverflow.com/questions/16828378/readline-get-a-new-prompt-on-sigint
+		ft_printf("\nSIGINT\n"); // New line.
+		rl_on_new_line(); // Regenerate the prompt on a newline
+		rl_replace_line("", 0); // Clear the previous text
+		rl_redisplay();
+	}
+	if (signo == SIGQUIT)
+	{
+		//rl_on_new_line(); // Regenerate the prompt on a newline
+		//rl_replace_line("", 0); // Clear the previous text
+		rl_redisplay();
+	}
+
+
 
 	// if (signo == SIGINT)
 	// {
@@ -74,29 +87,14 @@ int	main(void)
 {
 	t_minishell_data	data;
 
-	// struct sigaction	sa;
-	// Set above function as signal handler for the SIGINT signal:
-	// Warning : SIGINT leaks the whole data structure,
-	//	because it is not freed at all.
-	if (signal(SIGINT, signal_handler) == SIG_ERR)
-	{
-		ft_printf("An error occurred while setting a signal handler.\n");
-		return (EXIT_FAILURE);
-	}
+	init_signal_handling();
 	data.env_list = init_env_lst();
 	envlst_print(&data.env_list);
-	// init_signal_handling(&sa);
+
 	ft_printf("=== Minishell ===\n");
 	while (1)
 	{
-		//rl_catch_signals = 0;
-		rl_persistent_signal_handlers = 0;
 		data.input = readline("minishell> ");
-		if (g_signal == SIGINT)
-		{
-			ft_printf("GOTCHA !\n");
-		}
-		g_signal = 0;
 		if (data.input == NULL)
 		{
 			ft_printf("Got EOF. Exiting Minishell...\n");
@@ -106,14 +104,14 @@ int	main(void)
 		else
 		{
 			add_history(data.input);
-			data.command = ft_split(data.input, ' ');
-			if (data.command[0] != NULL)
+			data.command_array = ft_split(data.input, ' ');
+			if (data.command_array[0] != NULL)
 			{
 				data.env_array = env_lst_to_str_array(data.env_list);
-				execve(data.command[0], data.command, data.env_array);
+				execve(data.command_array[0], data.command_array, data.env_array);
 				ft_free_str_array(data.env_array);
 			}
-			ft_free_str_array(data.command);
+			ft_free_str_array(data.command_array);
 			free(data.input);
 		}
 	}

@@ -6,16 +6,16 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 20:48:36 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/25 17:37:27 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/26 00:23:00 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Minishell.h"
 
-/// @brief Make environment variable lst.
+/// @brief Initialize the environment variable linked list, using the global
+/// variable `__environ`, which is a `NULL` terminated array of strings.
 /// @brief - Run in the table
-/// @return `NULL` (pointer)-terminated list of pointers to
-/// `null` (`\n`) terminated strings.
+/// @return Pointer to the first element of the linked list.
 t_env_lst	*init_env_lst()
 {
 	int			i;
@@ -44,11 +44,11 @@ t_env_lst	*init_env_lst()
 	return (env_lst_first);
 }
 
-/// @brief Convert the environment variables chained list
-/// into a NULL terminated array of strings.
+/// @brief Convert the environment variables linked list
+/// into a new `NULL` terminated array of strings, using `malloc()`.
 /// The array has the same format as the global variable `__environ`.
-/// @param lst Chained list of environment variables.
-/// @return - Pointer to an array. Don't forget to `free()` it !
+/// @param lst Linked list of environment variables.
+/// @return - Pointer to a new array of strings.
 /// @return - `NULL` if `malloc()` fails.
 char	**env_lst_to_str_array(t_env_lst *lst)
 {
@@ -76,8 +76,9 @@ char	**env_lst_to_str_array(t_env_lst *lst)
 	return (env_array);
 }
 
-/// @brief Free() all the strings allocated in a NULL terminated string array.
-/// @param str_arr
+/// @brief Free() all the strings allocated in a `NULL`
+/// terminated array of strings, as well as the array itself.
+/// @param str_arr Array of strings to `free()`.
 void	ft_free_str_array(char **str_arr)
 {
 	int	i;
