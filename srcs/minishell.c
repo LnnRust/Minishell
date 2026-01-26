@@ -83,15 +83,25 @@ void	signal_handler(volatile sig_atomic_t signo)
 	// }
 }
 
+/// @brief Initialize Minishell.
+/// @brief - Setup signal handling.
+/// @brief - Get environment variables on start and setup the linked list.
+/// @brief - Greet the user : welcome !
+/// @param data Pointer to the main data structure.
+void init_minishell(t_minishell_data *data)
+{
+	init_signal_handling();
+	data->env_list = init_env_lst();
+	envlst_print(&data->env_list);
+
+	ft_printf("=== Minishell ===\n");
+}
+
 int	main(void)
 {
 	t_minishell_data	data;
 
-	init_signal_handling();
-	data.env_list = init_env_lst();
-	envlst_print(&data.env_list);
-
-	ft_printf("=== Minishell ===\n");
+	init_minishell(&data);
 	while (1)
 	{
 		data.input = readline("minishell> ");
