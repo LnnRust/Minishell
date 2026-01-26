@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 20:48:36 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/26 00:23:00 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/26 13:04:02 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,6 @@ char	**env_lst_to_str_array(t_env_lst *lst)
 	}
 	env_array[i] = ft_strdup(lst->env_value);
 	return (env_array);
-}
-
-/// @brief Free() all the strings allocated in a `NULL`
-/// terminated array of strings, as well as the array itself.
-/// @param str_arr Array of strings to `free()`.
-void	ft_free_str_array(char **str_arr)
-{
-	int	i;
-
-	i = 0;
-	while (str_arr[i] != NULL)
-	{
-		free(str_arr[i]);
-		i++;
-	}
-	free(str_arr);
 }
 
 /// @brief Adds the node `new` at the end of the list.

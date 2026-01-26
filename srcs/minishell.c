@@ -7,22 +7,6 @@ void	path_partout(void)
 {
 }
 
-/// @brief Check if a character is whitespace, as defined by the
-/// ISO C Standard.
-/// Whitespace characters include the following :
-/// `' '`, `\t`, `\n` , `\v`, `\f` and `\r`.
-/// @param c Character to check.
-/// @return True (1) or False (0).
-int	ft_is_whitespace(int c)
-{
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
-		|| c == '\r')
-	{
-		return (1);
-	}
-	return (0);
-}
-
 /// @brief Exit Minishell cleanly, freeing the structure `data` and all
 /// of its members.
 /// @brief - Can, in principle, be used at any stage of the program.
@@ -36,47 +20,6 @@ void	clean_exit(t_minishell_data *data)
 	// envlst_print(&data->env_list);
 	rl_clear_history();
 	exit(EXIT_SUCCESS);
-}
-
-volatile sig_atomic_t	g_signal;
-
-/// Handle the signal received. (ex: SIGINT exits the program).
-/// @param signo Signal Number. You may also enter the signal's short name,
-/// `SIGINT` for example. Check this page for some more info :
-/// https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm
-/// @warning Address Sanitizer (memory leak check) MAY FAIL to report leaks,
-/// depending on how the signal handler is implemented.
-/// @warning - The `exit()` function, including `atexit()`, `quick_exit()`,
-/// etc... can skip ASan entirely. In this scenario, only Valgrind can detect
-/// memory leaks on `exit()`.
-/// @note - The future implementation should not use the `exit()` function.
-/// @note - It may in the future use either `signal()` or `sigaction()`.
-void	signal_handler(volatile sig_atomic_t signo)
-{
-	g_signal = signo;
-	if (signo == SIGINT)
-	{
-		// https://stackoverflow.com/questions/16828378/readline-get-a-new-prompt-on-sigint
-		ft_printf("\nSIGINT\n"); // New line.
-		rl_on_new_line();        // Regenerate the prompt on a newline
-		rl_replace_line("", 0);  // Clear the previous text
-		rl_redisplay();
-	}
-	if (signo == SIGQUIT)
-	{
-		// rl_on_new_line(); // Regenerate the prompt on a newline
-		// rl_replace_line("", 0); // Clear the previous text
-		rl_redisplay();
-	}
-	// if (signo == SIGINT)
-	// {
-	// 	ft_printf("\nReceived SIGINT, TERMINATING.\n");
-	// 	ft_printf("Next version will not terminate, and will prompt back.\n");
-	// 	ft_printf("\033[0;31m=== WARNING: calling exit() ===\033[0m\n");
-	// 	ft_printf("\033[0;31mAddress Sanitizer will be skipped. NO LEAKS WILL BE REPORTED !\033[0m\n");
-	// 	ft_printf("\033[0;31m\nOnly Valgrind can report leaks in this scenario.\033[0m\n");
-	// 	exit(EXIT_SUCCESS);
-	// }
 }
 
 /// @brief Initialize Minishell.
@@ -96,7 +39,7 @@ void	init_minishell(t_minishell_data *data)
 }
 
 /// @brief There comes the horrible stuff.
-/// @brief "I almost wish I hadn't gone down that rabbit-hole.".
+/// @brief "I almost wish I hadn't gone down that rabbit-hole."
 /// @param data Pointer to the main data structure.
 void	process_input(t_minishell_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 20:38:34 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/24 18:20:32 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/26 13:05:41 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void					envlst_clear(t_env_lst **stack);
 
 t_env_lst				*init_env_lst(void);
 
-void					ft_free_str_array(char **str_arr);
 char					**env_lst_to_str_array(t_env_lst *lst);
 
 #endif

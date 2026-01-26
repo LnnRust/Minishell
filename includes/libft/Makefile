@@ -6,7 +6,7 @@
 #    By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/05 05:43:30 by ancourti          #+#    #+#              #
-#    Updated: 2026/01/25 10:43:31 by ancourti         ###   ########.fr        #
+#    Updated: 2026/01/26 13:04:33 by ancourti         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRCS			=	ft_isalnum.c ft_isprint.c ft_memcmp.c  ft_putchar_fd.c ft_split.c \
 					ft_strnstr.c ft_tolower.c ft_bzero.c   ft_isascii.c \
 					ft_memmove.c ft_putnbr_fd.c  ft_strdup.c  ft_strlen.c  ft_strrchr.c \
 					ft_toupper.c ft_calloc.c  ft_isdigit.c ft_memchr.c  ft_memset.c  \
-					ft_putstr_fd.c  ft_strjoin.c ft_strlmapi.c ft_strtrim.c ft_striteri.c
+					ft_putstr_fd.c  ft_strjoin.c ft_strlmapi.c ft_strtrim.c ft_striteri.c \
+					ft_is_whitespace.c ft_free_str_array.c
 OBJS			= $(SRCS:.c=.o)
 
 BONUS			=	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstlast_bonus.c \

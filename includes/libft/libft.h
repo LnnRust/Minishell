@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 19:50:54 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/25 10:12:22 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/26 13:04:19 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int					ft_putnbr_fd(int n, int fd);
 int					ft_putnbr_u_fd(unsigned int n, int fd);
 int					ft_putpointer(void *pointer, int fd);
 int					ft_count_digits(unsigned long n, int base);
+int					ft_is_whitespace(int c);
+void				ft_free_str_array(char **str_arr);
 
 /// @brief Bonus structure - Simple chained list.
 /// @param content The data contained in the node. `void *` allows you to
