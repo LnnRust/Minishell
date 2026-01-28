@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 20:38:34 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/26 13:05:41 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/26 13:17:10 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,7 @@ void					env_lstadd_back(t_env_lst **lst, t_env_lst *new);
 void					envlst_del_one(t_env_lst *stack);
 void					envlst_print(t_env_lst **stack);
 void					envlst_clear(t_env_lst **stack);
-// void					env_lstiter(t_env_lst *lst, void (*f)(void *));
-// t_env_lst				*env_lstmap(t_env_lst *lst, void *(*f)(void *),
-// 							void (*del)(void *));
-
 t_env_lst				*init_env_lst(void);
-
 char					**env_lst_to_str_array(t_env_lst *lst);
 
 #endif

@@ -15,16 +15,19 @@ UBSan			=	-fsanitize=undefined -fsanitize=float-divide-by-zero -fsanitize=intege
 					-fsanitize=implicit-conversion -fsanitize=integer -fsanitize=nullability -fsanitize=vptr \
 					-fno-sanitize-merge -fno-omit-frame-pointer
 
-SANITIZE		= $(ASan) $(UBSan)
+SANITIZE		= #$(ASan) $(UBSan)
 
 SRCS = \
 	srcs/minishell.c \
 	srcs/signal_handler.c \
 	srcs/environment.c \
+	srcs/input_processing.c \
 	#srcs/tokenizer.c \
 	#srcs/tokenizer_lsts.c \
 	#srcs/tokenizer_utils.c
 OBJS = $(SRCS:.c=.o)
+
+DEMO_SRCS = srcs/demo.c
 
 .PHONY: all clean fclean remakefile format
 
@@ -32,6 +35,10 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 #	-norminette
+	make -j$(nproc) -C includes/ft_printf
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(SANITIZE) -o $@ $^ includes/ft_printf/libftprintf.a $(LDFLAGS)
+
+demo: $(DEMO_SRCS)
 	make -j$(nproc) -C includes/ft_printf
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(SANITIZE) -o $@ $^ includes/ft_printf/libftprintf.a $(LDFLAGS)
 

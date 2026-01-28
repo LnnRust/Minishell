@@ -17,6 +17,7 @@ void	clean_exit(t_minishell_data *data)
 {
 	ft_printf("Exiting Minishell using clean_exit()...\n");
 	envlst_clear(&data->env_list);
+	token_lst_clear(&data->token_list);
 	// envlst_print(&data->env_list);
 	rl_clear_history();
 	exit(EXIT_SUCCESS);
@@ -38,23 +39,16 @@ void	init_minishell(t_minishell_data *data)
 	data->prompt = "minishell> ";
 }
 
-/// @brief There comes the horrible stuff.
-/// @brief "I almost wish I hadn't gone down that rabbit-hole."
-/// @param data Pointer to the main data structure.
-void	process_input(t_minishell_data *data)
-{
-	add_history(data->input);
-	data->command_array = ft_split(data->input, ' ');
-	if (data->command_array[0] != NULL)
-	{
-		data->env_array = env_lst_to_str_array(data->env_list);
-		execve(data->command_array[0], data->command_array, data->env_array);
-		ft_free_str_array(data->env_array);
-	}
-	ft_free_str_array(data->command_array);
-	free(data->input);
-}
 
+
+/// @brief Main loop of Minishell.
+/// @brief - "I almost wish I hadn't gone down that rabbit-hole."
+/// @brief - You take the blue pill - the story ends, you wake up in your bed
+/// and believe whatever you want to believe.
+/// @brief - You take the red pill - you stay in Wonderland,
+/// and I show you how deep the rabbit hole goes.
+/// @param
+/// @return
 int	main(void)
 {
 	t_minishell_data	data;
@@ -63,6 +57,7 @@ int	main(void)
 	while (1)
 	{
 		data.input = readline(data.prompt);
+		rl_event_hook = react_to_signal();
 		if (data.input == NULL)
 		{
 			clean_exit(&data);

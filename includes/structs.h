@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:03:19 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/26 12:33:27 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:19:10 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,23 @@ typedef struct s_command_lst
 	struct s_command_lst	*previous_command;
 }							t_command_lst;
 
+/// @brief Types of token.
+/// @note Selon Mylan : Il n'y aurait peut-être pas besoin de file et folder :
+/// ```sh
+/// < cat
+/// ```
+/// zsh: no such file or directory: cat
 enum						e_token_types
 {
 	CMD,
-	Text
+	TXT,
+	TOKEN_FILE,
+	TOKEN_FOLDER,
+	IN_REDIR,
+	OUT_REDIR,
+	HEREDOC,
+	APPEND,
+	PIPE
 };
 
 /// @brief A token contains a string.
@@ -52,8 +65,13 @@ typedef struct s_minishell_data
 {
 	char					*input;
 	char					*prompt;
+
+	// cmd + ARG SANS REDIR
 	char					**command_array;
 	struct s_env_lst		*env_list;
+	struct s_token_lst		*token_list;
+
+	// À retirer plus tard.
 	char					**env_array;
 }							t_minishell_data;
 

@@ -1,0 +1,6 @@
+sur un shell
+
+yes | ./minishell
+
+pgrep minishell
+while true; do kill -INT 394088; done

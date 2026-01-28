@@ -18,6 +18,7 @@
 # include "libft/libft.h"
 # include "structs.h"
 # include "environment.h"
+# include "input_processing.h"
 //# include "tokens.h"
 # include "signal_handler.h"
 # include <readline/history.h>

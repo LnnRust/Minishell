@@ -16,7 +16,11 @@ volatile sig_atomic_t	g_signal;
 void	signal_handler(volatile sig_atomic_t signo)
 {
 	g_signal = signo;
-	if (signo == SIGINT)
+}
+
+void	react_to_signal(void)
+{
+	if (g_signal == SIGINT)
 	{
 		// https://stackoverflow.com/questions/16828378/readline-get-a-new-prompt-on-sigint
 		ft_printf("\nSIGINT\n"); // New line.
@@ -24,7 +28,7 @@ void	signal_handler(volatile sig_atomic_t signo)
 		rl_replace_line("", 0);  // Clear the previous text
 		rl_redisplay();
 	}
-	if (signo == SIGQUIT)
+	if (g_signal == SIGQUIT)
 	{
 		// rl_on_new_line(); // Regenerate the prompt on a newline
 		// rl_replace_line("", 0); // Clear the previous text
@@ -39,6 +43,7 @@ void	signal_handler(volatile sig_atomic_t signo)
 	// 	ft_printf("\033[0;31m\nOnly Valgrind can report leaks in this scenario.\033[0m\n");
 	// 	exit(EXIT_SUCCESS);
 	// }
+	return (0);
 }
 
 /// @brief Initialize the signal handling structure.
@@ -54,6 +59,8 @@ void	signal_handler(volatile sig_atomic_t signo)
 /// SIGINT, SIGUSR1 and SIGUSR2 signals.
 void	init_signal_handling(void)
 {
+	SIG_DFL;
+	SIG_IGN;
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 	{
 		ft_printf("An error occurred while setting a signal handler.\n");
