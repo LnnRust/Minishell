@@ -13,6 +13,11 @@ void	path_partout(void)
 /// @brief - Checks if each member of the structure is already `NULL`
 /// to avoid any double `free()`.
 /// @param data Structure containing all the data dynamically allocated.
+/// @warning Address Sanitizer (memory leak check) MAY FAIL to report leaks,
+/// depending on how the program is exited.
+/// @warning - The `exit()` function, including `atexit()`, `quick_exit()`,
+/// etc... can skip ASan entirely. In this scenario, only Valgrind can detect
+/// memory leaks on `exit()`.
 void	clean_exit(t_minishell_data *data)
 {
 	ft_printf("Exiting Minishell using clean_exit()...\n");
@@ -20,6 +25,11 @@ void	clean_exit(t_minishell_data *data)
 	token_lst_clear(&data->token_list);
 	// envlst_print(&data->env_list);
 	rl_clear_history();
+
+	ft_printf("\033[0;31m=== WARNING: calling exit() ===\033[0m\n");
+	ft_printf("\033[0;31mAddress Sanitizer may be skipped. LEAKS MAY NOT BE REPORTED !\033[0m\n");
+	ft_printf("\033[0;31m\nValgrind may be more accurate in this scenario.\033[0m\n");
+
 	exit(EXIT_SUCCESS);
 }
 
@@ -33,17 +43,13 @@ void	clean_exit(t_minishell_data *data)
 void	init_minishell(t_minishell_data *data)
 {
 	init_signal_handling();
+	rl_event_hook = &react_to_signal;
+
 	data->env_list = init_env_lst();
 	envlst_print(&data->env_list);
 	ft_printf("=== Minishell ===\n");
 	data->prompt = "minishell> ";
-
-	// Process signal when received.
-	int (*f_ptr)() = &react_to_signal;
-	rl_event_hook = f_ptr;
 }
-
-
 
 /// @brief Main loop of Minishell.
 /// @brief - "I almost wish I hadn't gone down that rabbit-hole."
