@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:19:32 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/31 18:59:31 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/31 20:36:26 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,16 @@ void	process_input(t_minishell_data *data)
 	if (data->command_array[0] != NULL)
 	{
 		data->env_array = env_lst_to_str_array(data->env_list);
+
+		// Quotes should be closed. There should be zero or a pair count of quotes.
+
 		create_token_lst(data);
 
 		//create_token_lst(data);
+
+		// Signal shall be set to SIG_DEFAULT.
 		execve(data->command_array[0], data->command_array, data->env_array);
+		// Signal shall be set to SIG_IGNORE
 		ft_free_str_array(data->env_array);
 		token_lst_clear(&data->token_list);
 	}
@@ -163,6 +169,25 @@ t_token_lst	*token_lst_last(t_token_lst *stack)
 	return (ptr_stack);
 }
 
+/// @brief Check if a character is a meta-character.
+/// Meta-characters include the following :
+/// @brief - Whitespaces : `' '`, `\t`, `\n` ,
+/// `\v`, `\f` and `\r`.
+/// @brief - `|` `&` `;` `(` `)` `<` `>`
+/// @param c Character to check.
+/// @return True (1) or False (0).
+int	is_metacharacter(const char c)
+{
+	if (ft_is_whitespace(c) || c == '|' || c == '&' || c == ';' || c == '(' || c == ')' || c == '<' || c == '>')
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
+}
+
 // // @brief Deletes and frees the given node and all its successors,
 // // using the function `del` and `free()`.
 // // Finally, set the pointer to the list to `NULL`.
@@ -217,7 +242,7 @@ void	create_token_lst(t_minishell_data *data)
 	i = 0;
 	// begining_of_next_token = 0;
 	// Skip spaces until a valid chacter is found
-	while (ft_is_whitespace(data->input[i]) && data->input[i] != '\0')
+	while (is_metacharacter(data->input[i]) && data->input[i] != '\0')
 	{
 		i++;
 	}
@@ -227,7 +252,7 @@ void	create_token_lst(t_minishell_data *data)
 		// Spaces at the beggining have been skipped.
 		// Skip up to the end or the next white space,
 		// which will be the end position of the token to copy.
-		while (!ft_is_whitespace(data->input[i]) && data->input[i] != '\0')
+		while (!is_metacharacter(data->input[i]) && data->input[i] != '\0')
 		{
 			i++;
 		}
@@ -242,7 +267,7 @@ void	create_token_lst(t_minishell_data *data)
 			token_lst_add_back(&data->token_list, token_lst_new(ft_substr(data->input,
 						begining_of_next_token, (i - begining_of_next_token))));
 		}
-		while (ft_is_whitespace(data->input[i]) && data->input[i] != '\0')
+		while (is_metacharacter(data->input[i]) && data->input[i] != '\0')
 		{
 			i++;
 		}

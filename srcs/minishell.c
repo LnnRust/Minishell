@@ -46,7 +46,7 @@ void	init_minishell(t_minishell_data *data)
 	rl_event_hook = &react_to_signal;
 
 	data->env_list = init_env_lst();
-	envlst_print(&data->env_list);
+	// envlst_print(&data->env_list);
 	ft_printf("=== Minishell ===\n");
 	data->prompt = "minishell> ";
 }
@@ -66,8 +66,10 @@ int	main(void)
 	init_minishell(&data);
 	while (1)
 	{
-
 		data.input = readline(data.prompt);
+		// TODO : Set to sig ignore.
+		// We do not want signals to mess with either the clean_exit() : leak
+		// nor the input processing : leak/crash.
 		if (data.input == NULL)
 		{
 			clean_exit(&data);
@@ -76,6 +78,7 @@ int	main(void)
 		{
 			process_input(&data);
 		}
+		// TODO : Reset signals to normal
 	}
 	return (0);
 }

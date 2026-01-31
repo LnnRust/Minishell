@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 20:48:36 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/31 18:36:54 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/31 20:22:18 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,6 @@ void	envlst_print(t_env_lst **stack)
 	}
 	ft_printf("Node %i = %s | Node Address : %p | Next : %p\n", i, temp->env_value, temp, temp->next_env);
 }
-
-
 
 // /// @brief Iterates through the list `lst` and applies the
 // /// function `f` to the content of each node.
