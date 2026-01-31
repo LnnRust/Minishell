@@ -37,6 +37,10 @@ void	init_minishell(t_minishell_data *data)
 	envlst_print(&data->env_list);
 	ft_printf("=== Minishell ===\n");
 	data->prompt = "minishell> ";
+
+	// Process signal when received.
+	int (*f_ptr)() = &react_to_signal;
+	rl_event_hook = f_ptr;
 }
 
 
@@ -56,8 +60,8 @@ int	main(void)
 	init_minishell(&data);
 	while (1)
 	{
+
 		data.input = readline(data.prompt);
-		rl_event_hook = react_to_signal();
 		if (data.input == NULL)
 		{
 			clean_exit(&data);

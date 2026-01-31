@@ -5,6 +5,6 @@
 
 void	signal_handler(volatile sig_atomic_t signo);
 void	init_signal_handling(void);
-int		react_to_signal(void);
+int		react_to_signal();
 
 #endif

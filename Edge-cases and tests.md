@@ -25,3 +25,6 @@ Tester avec des commandes comme:
 ```sh
 env -i /bin/valgrind --trace-children=yes --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all ./minishell
 ```
+
+
+"'cat'"

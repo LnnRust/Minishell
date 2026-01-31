@@ -2,7 +2,10 @@
 
 volatile sig_atomic_t	g_signal;
 
-/// Handle the signal received. (ex: SIGINT exits the program).
+/// @brief Updates the global variable `g_signal` when a signal is received.
+/// A signal handler should not do anything else except this, as
+/// recommended
+
 /// @param signo Signal Number. You may also enter the signal's short name,
 /// `SIGINT` for example. Check this page for some more info :
 /// https://faculty.cs.niu.edu/~hutchins/csci480/signals.htm
@@ -18,7 +21,7 @@ void	signal_handler(volatile sig_atomic_t signo)
 	g_signal = signo;
 }
 
-void	react_to_signal(void)
+int	react_to_signal()
 {
 	if (g_signal == SIGINT)
 	{
@@ -27,13 +30,16 @@ void	react_to_signal(void)
 		rl_on_new_line();        // Regenerate the prompt on a newline
 		rl_replace_line("", 0);  // Clear the previous text
 		rl_redisplay();
+		//g_signal = SIG_DFL;
 	}
 	if (g_signal == SIGQUIT)
 	{
 		// rl_on_new_line(); // Regenerate the prompt on a newline
 		// rl_replace_line("", 0); // Clear the previous text
 		rl_redisplay();
+		//g_signal = SIG_DFL;
 	}
+	g_signal = 0;
 	// if (signo == SIGINT)
 	// {
 	// 	ft_printf("\nReceived SIGINT, TERMINATING.\n");
@@ -59,8 +65,8 @@ void	react_to_signal(void)
 /// SIGINT, SIGUSR1 and SIGUSR2 signals.
 void	init_signal_handling(void)
 {
-	SIG_DFL;
-	SIG_IGN;
+	// SIG_DFL;
+	// SIG_IGN;
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 	{
 		ft_printf("An error occurred while setting a signal handler.\n");

@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:03:19 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/27 18:19:10 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:07:37 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ enum						e_token_types
 /// @brief - A path to an executable.
 /// @brief - A program (executable) in a known path,
 /// such as in the PATH environment variable.
+/// @brief - An argument for an executable.
 /// @brief - A relative path.
 /// @brief - An absolute path.
 typedef struct s_token_lst
