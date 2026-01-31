@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 13:19:32 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/27 20:29:54 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/31 18:59:31 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	process_input(t_minishell_data *data)
 	{
 		data->env_array = env_lst_to_str_array(data->env_list);
 		create_token_lst(data);
+
+		//create_token_lst(data);
 		execve(data->command_array[0], data->command_array, data->env_array);
 		ft_free_str_array(data->env_array);
 		token_lst_clear(&data->token_list);
@@ -74,10 +76,11 @@ void	token_lst_add_back(t_token_lst **stack, t_token_lst *new)
 // does NOT free the next node.
 // @param lst The node to free.
 // @param del The address of the function used to delete the content.
-void	token_lst_del_one(t_token_lst *stack)
+void	token_lst_del_one(t_token_lst *lst)
 {
-	free(stack->token_content);
-	free(stack);
+	free((lst)->token_content);
+	free(lst);
+	lst = NULL;
 }
 
 // @brief Deletes and frees the given node and all its successors,
@@ -160,38 +163,38 @@ t_token_lst	*token_lst_last(t_token_lst *stack)
 	return (ptr_stack);
 }
 
-// @brief Deletes and frees the given node and all its successors,
-// using the function `del` and `free()`.
-// Finally, set the pointer to the list to `NULL`.
-//
-// Source code explaination :
-//
-// 1. Loop over the list.
-//
-// 2. Set `temp` to point to the next element of the list.
-//
-// 3. Use `ft_lstdelone()` on the current element.
-//
-// 4. Set the list pointer equal to `temp`, so that we have a
-// pointer to the next element.
-//
-// 5. Finally, `free()` the list pointer and set it to `NULL`.
-// @param lst The address of a pointer to a node.
-// @param del The address of the function used to
-// delete the content of the node.
-void	ft_stack_clear(t_token_lst **stack)
-{
-	t_token_lst	*temp;
+// // @brief Deletes and frees the given node and all its successors,
+// // using the function `del` and `free()`.
+// // Finally, set the pointer to the list to `NULL`.
+// //
+// // Source code explaination :
+// //
+// // 1. Loop over the list.
+// //
+// // 2. Set `temp` to point to the next element of the list.
+// //
+// // 3. Use `ft_lstdelone()` on the current element.
+// //
+// // 4. Set the list pointer equal to `temp`, so that we have a
+// // pointer to the next element.
+// //
+// // 5. Finally, `free()` the list pointer and set it to `NULL`.
+// // @param lst The address of a pointer to a node.
+// // @param del The address of the function used to
+// // delete the content of the node.
+// void	ft_stack_clear(t_token_lst **stack)
+// {
+// 	t_token_lst	*temp;
 
-	while ((*stack) != NULL)
-	{
-		temp = (*stack)->next_token;
-		token_lst_del_one(*stack);
-		*stack = temp;
-	}
-	free(*stack);
-	*stack = NULL;
-}
+// 	while ((*stack) != NULL)
+// 	{
+// 		temp = (*stack)->next_token;
+// 		token_lst_del_one(*stack);
+// 		*stack = temp;
+// 	}
+// 	free(*stack);
+// 	*stack = NULL;
+// }
 
 // Now you must create the tokens. Face the devil.
 
@@ -208,9 +211,9 @@ void	create_token_lst(t_minishell_data *data)
 {
 	int			i;
 	int			begining_of_next_token;
-	t_token_lst	*first_node;
+	//t_token_lst	*first_node;
 
-	first_node = NULL;
+	data->token_list = NULL;
 	i = 0;
 	// begining_of_next_token = 0;
 	// Skip spaces until a valid chacter is found
@@ -229,14 +232,14 @@ void	create_token_lst(t_minishell_data *data)
 			i++;
 		}
 		// Here you have a token, copy it.
-		if (first_node == NULL)
+		if (data->token_list == NULL)
 		{
-			first_node = token_lst_new(ft_substr(data->input,
+			data->token_list = token_lst_new(ft_substr(data->input,
 						begining_of_next_token, (i - begining_of_next_token)));
 		}
 		else
 		{
-			token_lst_add_back(&first_node, token_lst_new(ft_substr(data->input,
+			token_lst_add_back(&data->token_list, token_lst_new(ft_substr(data->input,
 						begining_of_next_token, (i - begining_of_next_token))));
 		}
 		while (ft_is_whitespace(data->input[i]) && data->input[i] != '\0')
@@ -254,7 +257,7 @@ void	create_token_lst(t_minishell_data *data)
 		}
 	}
 	// Add last token to the linked list.
-	token_lst_add_back(&first_node, token_lst_new(NULL));
+	token_lst_add_back(&data->token_list, token_lst_new(NULL));
 	// If there are only whitespaces, maybe the linked list should be NULL.
-	token_lst_print(&first_node);
+	token_lst_print(&data->token_list);
 }

@@ -6,7 +6,7 @@
 /*   By: ancourti <ancourti@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 20:48:36 by ancourti          #+#    #+#             */
-/*   Updated: 2026/01/26 13:04:02 by ancourti         ###   ########.fr       */
+/*   Updated: 2026/01/31 18:36:54 by ancourti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	envlst_del_one(t_env_lst *lst)
 {
 	free((lst)->env_value);
 	free(lst);
+	lst = NULL;
 }
 
 /// @brief Print the contents of the stack using `ft_printf()`.
