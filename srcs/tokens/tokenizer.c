@@ -4,17 +4,19 @@
 static t_token_type get_type(char *value, int has_quotes)
 {
 	if (has_quotes) // -> if quote = always a word
-	return (TOKEN_WORD);
+		return (TOKEN_WORD);
 	if (ft_strlen(value) == 1 && value[0] == '|')
-	return (TOKEN_PIPE);
+		return (TOKEN_PIPE);
+	if(ft_strlen(value) == 1 && value[0] == '*')
+		return(TOKEN_WILDCARD);
 	if (ft_strlen(value) == 1 && value[0] == '<')
-	return (TOKEN_REDIRECT_IN);
+		return (TOKEN_REDIRECT_IN);
 	if (ft_strlen(value) == 2 && value[0] == '<' && value[1] == '<')
-	return (TOKEN_HEREDOC);
+		return (TOKEN_HEREDOC);
 	if (ft_strlen(value) == 1 && value[0] == '>')
-	return (TOKEN_REDIRECT_OUT);
+		return (TOKEN_REDIRECT_OUT);
 	if (ft_strlen(value) == 2 && value[0] == '>' && value[1] == '>')
-	return (TOKEN_APPEND);
+		return (TOKEN_APPEND);
 	return (TOKEN_WORD);
 }
 
@@ -42,15 +44,14 @@ static int find_end_of_word(char *word, int *has_quotes)
 			in_double = !in_double;
 			*has_quotes = 1;
 		}
-		else if(!in_single && !in_double
-			&& (is_space(word[i]) || word[i] == '|' || word[i] == '<' || word[i] == '>'))
+		else if(!in_single && !in_double && (is_space(word[i]) || word[i] == '|' || word[i] == '<' || word[i] == '>' || word[i] == '*'))
 			break;
-			i++;
-		}
-		if(in_double || in_single)
-		return (-1);
-		return (i);
+		i++;
 	}
+	if(in_double || in_single)
+		return (-1);
+	return (i);
+}
 
 	static int get_token_len(char *input, int *has_quotes)
 	{
@@ -58,19 +59,19 @@ static int find_end_of_word(char *word, int *has_quotes)
 
 	// check if operator
 	if (input[0] == '|')
-	return (1);
+		return (1);
 	if (input[0] == '<')
 	{
 		if (input[1] == '<')
-		return (2);
+			return (2);
 		return (1);
 	}
 	if (input[0] == '>')
 	{
 		if (input[1] == '>')
 			return (2);
-			return (1);
-		}
+		return (1);
+	}
 		// if not == word -> need to find end of word
 	return (find_end_of_word(input, has_quotes));
 }

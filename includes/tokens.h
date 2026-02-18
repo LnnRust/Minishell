@@ -8,6 +8,7 @@ typedef enum {
 	TOKEN_REDIRECT_OUT,
 	TOKEN_HEREDOC,
 	TOKEN_APPEND,
+	TOKEN_WILDCARD,
 } t_token_type;
 
 typedef struct s_token {

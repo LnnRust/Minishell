@@ -1,6 +1,6 @@
 #include "../includes/Minishell.h"
 
-int main(int ac, char **av, char **envp)
+int main(void)
 {
 	char	*input;
 	t_token	*tokens;
@@ -15,6 +15,7 @@ int main(int ac, char **av, char **envp)
 		if (*input)
 			add_history(input);  // add_history allows to keep commands and navigate with up/down
 		tokens = tokenizer(input);
+		print_tokens(tokens);
 		if(!tokens)
 			return (free(input), free_tokens(tokens), EXIT_FAILURE);
 		free(input);  // Readline allocates memory but doesnt free
