@@ -1,105 +1,108 @@
-#include "../includes/Minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fill_env_struct.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aandreo <aandreo@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/03 04:39:33 by aandreo           #+#    #+#             */
+/*   Updated: 2026/03/03 04:44:15 by aandreo          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//TODO need to build init env linked list function // DONE 
-//TODO need one function for unset -> unset the var from env linked list // 
-//TODO need one function to add var in env linked list
+#include "minishell.h"
 
-static char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	i;
-	char	*newstring;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen(s))
-	{
-		newstring = malloc(sizeof(char));
-		if (!newstring)
-			return (NULL);
-		newstring[0] = '\0';
-		return (newstring);
-	}
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	newstring = malloc((len + 1) * sizeof(char));
-	if (!newstring)
-		return (NULL);
-	while (s[start] && i < len)
-		newstring[i++] = s[start++];
-	newstring[i] = '\0';
-	return (newstring);
-}
-
-static t_env *create_new_node(const char *key, const char *value)
-{
-	t_env *new;
-
-	new = malloc(sizeof(t_env));
-	if(!new)
-		return NULL;
-	new->key = ft_strdup(key);
-	new->value = ft_strdup(value);
-	new->next = NULL;
-	return (new);
-}
-
-//init and fill env struct, returns pointer to head of linked list
 t_env	*init_env_struct(char **envp)
 {
 	t_env	*head;
 	t_env	*tail;
-	t_env	*node;
-	char	*equalChar;
-	char	*key;
 	int		i;
 
 	i = 0;
 	head = NULL;
 	tail = NULL;
-	while(envp[i])
+	while (envp[i])
 	{
-		equalChar = ft_strchr(envp[i], '=');
-		if(equalChar)
-		{
-			key = (ft_substr(envp[i], 0, equalChar - envp[i]));
-			node = create_new_node(key, equalChar + 1);
-			free(key);
-			if(!head)
-			{
-				head = node;
-				tail = node;
-			}
-			else
-				tail->next = node;
-		}
+		process_env_entry(envp[i], &head, &tail);
 		i++;
 	}
-
 	return (head);
 }
 
-//return value linked to the key, or NULL if key doesnt exists
-char 	*get_env_value(t_env *env, char* key)
+char	*get_env_value(t_env *env, char *key)
 {
-	while(env)
+	size_t	key_len;
+
+	key_len = ft_strlen(key);
+	while (env)
 	{
-		if(ft_strcmp(env->key, key) == 0)
+		if (ft_strncmp(env->key, key, key_len) == 0
+			&& env->key[key_len] == '\0')
 			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
 }
 
-void free_env(t_env *env)
+static int	update_existing_key(t_env *env, char *key,
+				char *value, size_t key_len)
 {
-
-	t_env *tmp;
-	while(env)
+	while (env)
 	{
-		tmp = env->next;
-		free(env->key);
-		free(env->value);
-		free(env);
+		if (ft_strncmp(env->key, key, key_len) == 0
+			&& env->key[key_len] == '\0')
+		{
+			free(env->value);
+			if (value)
+				env->value = ft_strdup(value);
+			else
+				env->value = ft_strdup("");
+			return (1);
+		}
+		env = env->next;
+	}
+	return (0);
+}
+
+void	set_env_value(t_env **env, char *key, char *value)
+{
+	t_env	*new_node;
+	size_t	key_len;
+
+	if (!env || !key)
+		return ;
+	key_len = ft_strlen(key);
+	if (update_existing_key(*env, key, value, key_len))
+		return ;
+	if (value)
+		new_node = create_new_node(key, value);
+	else
+		new_node = create_new_node(key, "");
+	if (!new_node)
+		return ;
+	append_to_end(env, new_node);
+}
+
+void	unset_env_value(t_env **env, char *key)
+{
+	t_env	*current;
+	t_env	*prev;
+	size_t	key_len;
+
+	if (!env || !*env || !key)
+		return ;
+	key_len = ft_strlen(key);
+	current = *env;
+	prev = NULL;
+	while (current)
+	{
+		if (ft_strncmp(current->key, key, key_len) == 0
+			&& current->key[key_len] == '\0')
+		{
+			remove_node(env, prev, current);
+			return ;
+		}
+		prev = current;
+		current = current->next;
 	}
 }
