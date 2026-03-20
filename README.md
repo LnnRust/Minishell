@@ -13,8 +13,6 @@
 
 [![42 School](https://img.shields.io/badge/42-School-000000?style=flat-square&logo=42&logoColor=white)](https://42.fr)
 [![Language](https://img.shields.io/badge/Language-C-00599C?style=flat-square&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C_(programming_language))
-[![Norm](https://img.shields.io/badge/Norminette-passing-brightgreen?style=flat-square)](https://github.com/42School/norminette)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
 </div>
 
